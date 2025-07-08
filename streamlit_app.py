@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+st.markdown("# Main Page 🎈")
+st.write("Welcome to the main page of your multi-page app!")
 st.title("🌌 What's Your Weight on Other Planets?")
 
 # Ask for user input
