@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from datetime import date
+from datetime import datetime, timezone, timedelta
 
 # Config
 st.set_page_config(page_title="NASA APOD Viewer", layout="centered")
@@ -9,10 +10,17 @@ st.title("🌌 NASA Astronomy Picture of the Day")
 # Constants
 API_KEY = "DEMO_KEY"  # Replace with your own key if needed
 API_URL = "https://api.nasa.gov/planetary/apod"
-today = date.today()
+# Use local time instead of UTC
+local_today = datetime.now().date()
 
 # User input: Date selection (defaults to today)
-selected_date = st.date_input("Select a date:", value=today, min_value=date(1995, 6, 16), max_value=today)
+selected_date = st.date_input(
+    "Select a date:",
+    value=local_today,
+    min_value=date(1995, 6, 16),
+    max_value=local_today
+)
+
 params = {"api_key": API_KEY, "date": selected_date.isoformat()}
 
 # Fetch APOD
