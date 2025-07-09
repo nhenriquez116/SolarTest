@@ -1,19 +1,22 @@
 import streamlit as st
 import requests
-from datetime import date
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, date
+import pytz
 
-# Config
-st.set_page_config(page_title="NASA APOD Viewer", layout="centered")
-st.title("🌌 NASA Astronomy Picture of the Day")
+# Set timezone (use full name like 'US/Eastern', not 'EST')
+eastern = pytz.timezone("US/Eastern")
+now_eastern = datetime.now(eastern)
+local_today = now_eastern.date()
 
-# Constants
-API_KEY = "DEMO_KEY"  # Replace with your own key if needed
+# Show it (for debugging)
+# st.write(f"Local (Eastern) time: {now_eastern}")
+# st.write(f"Local (Eastern) date: {local_today}")
+
+# API setup
+API_KEY = "DEMO_KEY"
 API_URL = "https://api.nasa.gov/planetary/apod"
-# Use local time instead of UTC
-local_today = datetime.now().date()
 
-# User input: Date selection (defaults to today)
+# User input
 selected_date = st.date_input(
     "Select a date:",
     value=local_today,
@@ -23,7 +26,6 @@ selected_date = st.date_input(
 
 params = {"api_key": API_KEY, "date": selected_date.isoformat()}
 
-# Fetch APOD
 @st.cache_data
 def fetch_apod(params):
     response = requests.get(API_URL, params=params)
@@ -32,6 +34,7 @@ def fetch_apod(params):
 data = fetch_apod(params)
 
 # Display
+st.title("🌌 NASA Astronomy Picture of the Day")
 st.header(data.get("title", "No Title"))
 st.subheader(data.get("date", ""))
 
@@ -45,6 +48,5 @@ else:
 st.markdown("### 📖 Explanation")
 st.write(data.get("explanation", "No explanation available."))
 
-# Optional: show copyright
 if "copyright" in data:
     st.markdown(f"© {data['copyright']}")
