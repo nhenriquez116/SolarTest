@@ -6,12 +6,13 @@ from datetime import date
 st.set_page_config(page_title="NASA APOD Viewer", layout="centered")
 st.title("🌌 NASA Astronomy Picture of the Day")
 
-# API setup
+# Constants
 API_KEY = "DEMO_KEY"  # Replace with your own key if needed
 API_URL = "https://api.nasa.gov/planetary/apod"
+today = date.today()
 
-# User input: Date selection
-selected_date = st.date_input("Select a date:", value=date.today(), min_value=date(1995, 6, 16), max_value=date.today())
+# User input: Date selection (defaults to today)
+selected_date = st.date_input("Select a date:", value=today, min_value=date(1995, 6, 16), max_value=today)
 params = {"api_key": API_KEY, "date": selected_date.isoformat()}
 
 # Fetch APOD
