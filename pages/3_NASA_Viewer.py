@@ -27,7 +27,7 @@ st.header(data.get("title", "No Title"))
 st.subheader(data.get("date", ""))
 
 if data.get("media_type") == "image":
-    st.image(data.get("url"), use_column_width=True)
+    st.image(data.get("url"), use_container_width=True)
 elif data.get("media_type") == "video":
     st.video(data.get("url"))
 else:
